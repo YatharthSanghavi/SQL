@@ -1,0 +1,30 @@
+CREATE TABLE Employees (
+    EmpID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    Designation VARCHAR(100),
+    Department VARCHAR(50)
+);
+
+INSERT INTO Employees (EmpID, FirstName, LastName, Email, Designation, Department) VALUES
+(1, 'Aamir',    'Ross',     'aamir.ross@gmail.com',        'Sales Manager',         'Sales'),
+(2, 'Anita',    'Sasson',   'anita123@outlook.com',        'HR Executive',          'HR'),
+(3, 'Edwin',    'Gates',    'edwin.gates@yahoo.com',       'General Manager',       'Management'),
+(4, 'Eva',      'Silva',    'eva.silva@yahoo.edu',         'IT-in-Charge',          'IT1'),
+(5, 'Otto',     'Smith',    'otto.smith@abc.com',          'Support Staff',         'Support'),
+(6, 'Aaron',    'Johnson',  'aaron.johnson@gmail.com',     'Finance Manager',       'Finance'),
+(7, 'Eve',      'Essess',   'eve.essess@college.edu',      'Project-in-Charge',     'Research'),
+(8, 'Steve',    'Mason',    'info42@yahoo.com',            'Operations Manager',    'Operations'),
+(9, 'Anna',     'Hannah',   'anna.hannah@gmail.com',       'HR-in-Charge',          'HR2'),
+(10,'John',     'Nash',     'john3@gmail.com',             'Technical Lead',        'Development'),
+(11,'Jean',     'Clark',    'jean.clark@yahoo.com',        'Legal Advisor',         'Legal1'),
+(12,'Aeon',     'Xenon',    'aeonxenon@edu.edu',           'CEO',                   'Admin'),
+(13,'Ellen',    'Briggs',   'ellen.briggs@edu.com',        'Branch Manager',        'Marketing1'),
+(14,'Jenna',    'Marks',    'jenna98@abc.net',             'Sales Executive',       'Sales2'),
+(15,'Deed',     'Zzz',      'deed@domain.com',             'Guard-in-Charge',       'Security'),
+(16,'Abba',     'Civic',    'abba.civic@gmail.com',        'Helper',                'Utility'),
+(17,'Geoff',    'Hall',     'geoff.hall@gmail.com',        'Support Staff',         'Support3'),
+(18,'Jeevan',   'Morris',   'jeevan.morris@yahoo.com',     'Deputy Manager',        'IT3'),
+(19,'Reer',     'Rrrr',     'reer.rrr@xyz.edu',            'Chief-in-Charge',       'Strategy'),
+(20,'Sally',    'Glass',    'info.sally@yahoo.com',        'Team Lead',             'Team1');
