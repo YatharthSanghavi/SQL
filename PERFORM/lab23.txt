@@ -1,0 +1,118 @@
+lab 23
+
+db.Customer.insertMany([
+{
+CID:1,
+CNAME:"Rajesh",
+EMAIL:"rajesh@gmail.com",
+gender:"male",
+city:"Surat",
+BALANCE:5000
+},
+{
+CID:2,
+CNAME:"Meena",
+EMAIL:"meena@yahoo.com",
+gender:"female",
+BALANCE:8000,
+city:"Ahmedabad"
+},
+{
+CID:3,
+CNAME:"Anil",
+EMAIL:"anil@outlook.com",
+gender:"male",
+BALANCE:6000,
+city:"Vadodara"
+},
+{
+CID:4,
+CNAME:"Sneha",
+EMAIL:"sneha@hotmail.com",
+gender:"female",
+BALANCE:50000,
+city:"Rajkot"
+},
+{
+CID:5,
+CNAME:"Nikhil",
+EMAIL:"nikhil@gmail.com",
+gender:"male",
+BALANCE:4000,
+city:"Surat"
+},
+{
+CID:6,
+CNAME:"Rachna",
+EMAIL:"rachna@yahoo.com",
+gender:"female",
+BALANCE:9000,
+city:"Baroda"
+},
+{
+CID:7,
+CNAME:"Gaurav",
+EMAIL:"gaurav@outlook.com",
+gender:"male",
+BALANCE:10000,
+city:"Jamnagar"
+},
+{
+CID:8,
+CNAME:"Tanya",
+EMAIL:"tanya@hotmail.com",
+gender:"female",
+BALANCE:5500,
+city:"Mehsana"
+},
+{
+CID:9,
+CNAME:"Pushti",
+EMAIL:"pushti@gmail.com",
+gender:"female",
+BALANCE:50000,
+city:"Rajkot"
+},
+{
+CID:10,
+CNAME:"Avni",
+EMAIL:"avni@yahoo.com",
+gender:"female",
+BALANCE:10000,
+city:"Morbi"
+}
+])
+
+
+1. Find customers whose CITY does not start with 'S'
+db.Customer.find({city:{$not:/^s/i}})
+
+2. Find customers whose CITY contains the word 'bad'
+db.Customer.find({city:/bad/i})
+
+3.Find customers whose CNAME has two consecutive vowels.
+db.Customer.find({CNAME:/[aeiou]{2}/i})
+
+4.Find customers whose CNAME has three or more letters.
+db.Customer.find({CNAME:/.{3}/i})
+
+5.Find customers whose EMAIL ends with 'gmail.com'.
+db.Customer.find({EMAIL:/gmail\.com$/i})
+
+6. Find customers whose EMAIL contains 'outlook'
+db.Customer.find({EMAIL:/outlook/i})
+
+7.Find customers whose name starts with any uppercase letter.
+db.Customer.find({CNAME:/[A-Z]/})
+
+8. Find customers not from Surat or Rajkot.
+db.Customer.find({city:{$nin:["Surat","Rajkot"]}})
+
+9. Find customers whose EMAIL starts with 't' and ends with '.com'.
+db.Customer.find({EMAIL:/^t.*\.com$/i})
+
+10. Find customers whose CNAME does not contain 'a' or 'e'
+db.Customer.find({CNAME:{$not:/[ae]/i}})
+
+11. Find customers whose EMAIL contains exactly one digit.
+db.Customer.find({EMAIL:/^[^0-9]*[0-9][^0-9]$/i})
