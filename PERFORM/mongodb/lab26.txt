@@ -1,0 +1,149 @@
+db.Shopping_Order.insertMany([
+  {
+    OID: 101,
+    CUSTOMER: "Riya Shah",
+    PRODUCT: "iPhone 13",
+    CATEGORY: "Electronics",
+    PRICE: 70000,
+    QTY: 1,
+    Total: 70000,
+    Date: ISODate("2025-05-10T00:00:00Z"),
+    Status: "Delivered"
+  },
+  {
+    OID: 102,
+    CUSTOMER: "Amit Patel",
+    PRODUCT: "T-shirt",
+    CATEGORY: "Fashion",
+    PRICE: 500,
+    QTY: 3,
+    Total: 1500,
+    Date: ISODate("2025-05-12T00:00:00Z"),
+    Status: "Shipped"
+  },
+  {
+    OID: 103,
+    CUSTOMER: "Nidhi Desai",
+    PRODUCT: "Microwave",
+    CATEGORY: "Appliances",
+    PRICE: 9500,
+    QTY: 1,
+    Total: 9500,
+    Date: ISODate("2025-05-15T00:00:00Z"),
+    Status: "Cancelled"
+  },
+  {
+    OID: 104,
+    CUSTOMER: "Raj Mehta",
+    PRODUCT: "Running Shoes",
+    CATEGORY: "Footwear",
+    PRICE: 3000,
+    QTY: 2,
+    Total: 6000,
+    Date: ISODate("2025-05-16T00:00:00Z"),
+    Status: "Delivered"
+  },
+  {
+    OID: 105,
+    CUSTOMER: "Zarna Modi",
+    PRODUCT: "Book Set",
+    CATEGORY: "Stationery",
+    PRICE: 1200,
+    QTY: 1,
+    Total: 1200,
+    Date: ISODate("2025-05-18T00:00:00Z"),
+    Status: "Delivered"
+  },
+  {
+    OID: 106,
+    CUSTOMER: "Mehul Joshi",
+    PRODUCT: "Bluetooth Speaker",
+    CATEGORY: "Electronics",
+    PRICE: 2500,
+    QTY: 1,
+    Total: 2500,
+    Date: ISODate("2025-05-20T00:00:00Z"),
+    Status: "Shipped"
+  },
+  {
+    OID: 107,
+    CUSTOMER: "Sneha Rana",
+    PRODUCT: "Handbag",
+    CATEGORY: "Fashion",
+    PRICE: 1800,
+    QTY: 2,
+    Total: 3600,
+    Date: ISODate("2025-05-22T00:00:00Z"),
+    Status: "Delivered"
+  },
+  {
+    OID: 103,
+    CUSTOMER: "Nidhi Desai",
+    PRODUCT: "Laptop",
+    CATEGORY: "Electronics",
+    PRICE: 65000,
+    QTY: 1,
+    Total: 65000,
+    Date: ISODate("2025-05-19T00:00:00Z"),
+    Status: "Delivered"
+  },
+  {
+    OID: 101,
+    CUSTOMER: "Riya Shah",
+    PRODUCT: "iPhone 13",
+    CATEGORY: "Electronics",
+    PRICE: 70000,
+    QTY: 1,
+    Total: 70000,
+    Date: ISODate("2025-05-10T00:00:00Z"),
+    Status: "Delivered"
+  },
+  {
+    OID: 102,
+    CUSTOMER: "Amit Patel",
+    PRODUCT: "T-shirt",
+    CATEGORY: "Fashion",
+    PRICE: 500,
+    QTY: 3,
+    Total: 1500,
+    Date: ISODate("2025-05-12T00:00:00Z"),
+    Status: "Shipped"
+  }
+]);
+
+1. Count unique customers as per category.
+db.Shopping_Order.aggregate([{$group:{_id:{CATEGORY:"$CATEGORY",CUSTOMER:"$CUSTOMER"}}},{$group:{_id:"$_id.CATEGORY",unique:{$sum:1}}}])
+
+2. Find the highest order value of each Customer.
+db.Shopping_Order.aggregate([{$group:{_id:"$CUSTOMER",TOTAL:{$max:"$Total"}}}])
+
+3. Determine average order per product category.
+db.Shopping_Order.aggregate([{$group:{_id:"$CATEGORY",AVGERAGE:{$avg:"$Total"}}}])
+
+4. Group by customer and product,count total units ordered.
+db.Shopping_Order.aggregate([{$group:{_id:{CUSTOMER:"$CUSTOMER",Product:"$PRODUCT"},total:{$sum:"$QTY"}}}])
+
+5. Group by product, get average quantity and total revenue.
+db.Shopping_Order.aggregate([{$group:{_id:"$PRODUCT",AVGQTY:{$avg:"$QTY"},Revenue:{$sum:"$Total"}}}])
+
+6. As per day get total products sold.
+db.Shopping_Order.aggregate([{$group:{_id:"$Date",totalsum:{$sum:"$Total"}}}])
+
+7. Filter only those Customers with total spend > 5000.
+db.Shopping_Order.aggregate([{$group:{_id:"$CUSTOMER"},{$match:{Total:{$gt:5000}}}}])
+
+8. Average order value per status.
+db.Shopping_Order.aggregate([{$group:{_id:"$Status",Avgvalue:{$avg:"$Total"}}}])
+
+9. Find Top 3 Highest sold Product(revenue).
+db.Shopping_Order.aggregate([{$group:{_id:"$PRODUCT",total:{$sum:"$Total"}}},{$sort:{total:-1}},{$limit:3}])
+
+10. How many quantity of Product’s order is cancelled.
+db.Shopping_Order.aggregate([{$match:{Status:"Cancelled"}},{$group:{_id:null,total:{$sum:"$QTY"}}}])
+
+11. Count how many products each customer has bought across all categories
+db.Shopping_Order.aggregate([{$group:{_id:{customer:"$CUSTOMER",category:"$CATEGORY"},qty:{$sum:"$QTY"}}}])
+
+12. Get the Number of orders placed per Customer per status (Delivered,Shipped,etc..)
+db.Shopping_Order.aggregate([{$group:{_id:{customer:"$CUSTOMER",status:"$Status"},qty:{$sum:1}}}])
+

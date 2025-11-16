@@ -1,0 +1,165 @@
+part - A
+db.student.insertMany([
+{
+eid:1,
+ename:"Nick",
+gender:"male",
+joiningdate:"01-JAN-13",
+salary:4000,
+city:"London"
+},
+{
+eid:2,
+ename:"Julian",
+gender:"female",
+joiningdate:"01-OCT-14",
+salary:3000,
+city:"New York"
+},
+{
+eid:3,
+ename:"Roy",
+gender:"male",
+joiningdate:"01-JUN-16",
+salary:3500,
+city:"London"
+},
+{
+eid:4,
+ename:"Tom",
+gender:"male",
+salary:4500,
+city:"London"
+},
+{
+eid:5,
+ename:"Jerry",
+gender:"male",
+joiningdate:"01-Feb-13",
+salary:2800,
+city:"Sydney"
+},
+{
+eid:6,
+ename:"Philip",
+gender:"male",
+joiningdate:"01-JAN-15",
+salary:7000,
+city:"New York"
+},
+{
+eid:7,
+ename:"Sara",
+gender:"Female",
+joiningdate:"01-AUG-17",
+salary:4800,
+city:"Sydney"
+},
+{
+eid:8,
+ename:"Emily",
+gender:"Female",
+joiningdate:"01-JAN-15",
+salary:5500,
+city:"New York"
+},
+{
+eid:9,
+ename:"Michael",
+gender:"male",
+salary:6500,
+city:"London"
+},
+{eid:10,
+ename:"John",
+gender:"male",
+joiningdate:"01-JAN-15",
+salary:8800,
+city:"London"
+}
+])
+
+1. Find employees whose name start with E.
+db.employee.find({ename:/^E/i})
+
+2. Find employees whose name ends with n.
+db.employee.find({ename:/n$/i})
+
+3. Find employees whose name starts with S or M in your collection.
+db.employee.find({ename:/^[sm]/i})
+
+4. Find employees where city starts with A to M in your collection.
+db.employee.find({city:/^[A-M]/i})
+
+5. Find employees where city name ends in ‘ney’.
+db.employee.find({city:/ney$/i})
+
+6. Display employee info whose name contains n. (Both uppercase(N) and lowercase(n))
+db.employee.find({ename:/[N][n]/})
+
+7. Display employee info whose name starts with E and having 5 characters.
+db.employee.find({ename:/^E.{4}/i})
+
+8. Display employee whose name start with S and ends in a.
+db.employee.find({ename:/^S.*a$/i})
+
+9. Display EID, ENAME, CITY and SALARY whose name starts with ‘Phi’.
+db.employee.find({ename:/^Phi/i},{eid:1, ename:1, city:1, salary:1,_id:0})
+
+10. Display ENAME, JOININGDATE and CITY whose city contains ‘dne’ as three letters in city name.
+db.employee.find({city:/dne/i},{ename:1, city:1, joiningdate:1,_id:0})
+
+11. Display ENAME, JOININGDATE and CITY who does not belongs to city London or Sydney.
+db.employee.find({city:{$nin:["London","Sydney"]}},{ename:1, city:1, joiningdate:1,_id:0})
+
+12. Find employees whose names start with 'J'.
+db.employee.find({ename:/^J/i})
+
+13. Find employees whose names end with 'y'.
+db.employee.find({ename:/y$/i})
+
+14. Find employees whose names contain the letter 'a'.
+db.employee.find({ename:/a/i})
+
+15. Find employees whose names contain either 'a' or 'e'.
+db.employee.find({ename:/[ae]/)
+
+16. Find employees whose names start with 'J' and end with 'n'.
+db.employee.find({ename:/^J.*n$/})
+
+17. Find employees whose CITY starts with 'New'.
+db.employee.find({city:/^new/i})
+
+18. Find employees whose CITY does not start with 'L'
+db.employee.find({city:/^[^l]/i})
+
+19. Find employees whose CITY contains the word 'York'
+db.employee.find({city:/york/i})
+
+20. Find employees whose names have two consecutive vowels (a, e, i, o, u).
+db.employee.find({ename:/[aeiou]{2}/i})
+
+21. Find employees whose names have three or more letters.
+db.employee.find({ename:/.{3,}/i})
+
+22. Find employees whose names have exactly 4 letters.
+db.employee.find({ename:/^....$/i})
+
+23. Find employees whose names start with either 'S' or 'M'.
+db.employee.find({ename:/^[sm]/i})
+
+24. Find employees whose names contain 'il' anywhere.
+db.employee.find({ename:/il/i})
+
+25. Find employees whose names do not contain 'a'.
+db.employee.find({ename:/[^a]/i})
+db.employee.find({ename:{$not:a}})
+
+26. Find employees whose names contain any digit.
+db.employee.find({ename:/[0-9]/})
+
+27. Find employees whose names contain exactly one vowel.
+db.employee.find({ename:/[aeiou]/i})
+
+28. Find employees whose names start with any uppercase letter followed by any lowercase letter.
+

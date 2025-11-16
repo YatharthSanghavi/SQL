@@ -1,0 +1,46 @@
+db.faculty.insertMany([
+  { "FID": 201, "FNAME": "Aarti", "DEPARTMENT": "CE", "SALARY": 50000, "EXPERIENCE": 5, "GENDER": "Female", "CITY": "Rajkot" },
+  { "FID": 202, "FNAME": "Bhavesh", "DEPARTMENT": "EC", "SALARY": 45000, "EXPERIENCE": 7, "GENDER": "Male", "CITY": "Ahmedabad" },
+  { "FID": 203, "FNAME": "Chitra", "DEPARTMENT": "Civil", "SALARY": 40000, "EXPERIENCE": 6, "GENDER": "Female", "CITY": "Baroda" },
+  { "FID": 204, "FNAME": "Deepak", "DEPARTMENT": "CE", "SALARY": 50000, "EXPERIENCE": 8, "GENDER": "Male", "CITY": "Rajkot" },
+  { "FID": 205, "FNAME": "Ekta", "DEPARTMENT": "CE", "SALARY": 52000, "EXPERIENCE": 4, "GENDER": "Female", "CITY": "Jamnagar" },
+  { "FID": 206, "FNAME": "Faizan", "DEPARTMENT": "Civil", "SALARY": 42000, "EXPERIENCE": 7, "GENDER": "Male", "CITY": "Ahmedabad" },
+  { "FID": 207, "FNAME": "Gita", "DEPARTMENT": "EE", "SALARY": 46000, "EXPERIENCE": 3, "GENDER": "Female", "CITY": "Rajkot" },
+  { "FID": 208, "FNAME": "Harsh", "DEPARTMENT": "Mechanical", "SALARY": 48000, "EXPERIENCE": 4, "GENDER": "Male", "CITY": "Rajkot" },
+  { "FID": 209, "FNAME": "Dhruv", "DEPARTMENT": "EC", "SALARY": 45000, "EXPERIENCE": 5, "GENDER": "Male", "CITY": "Morbi" },
+  { "FID": 210, "FNAME": "Tina", "DEPARTMENT": "EE", "SALARY": 47000, "EXPERIENCE": 3, "GENDER": "Female", "CITY": "Surat" }
+]);
+
+
+1. Display all distinct departments.
+db.faculty.aggregate([{$group:{_id:"$DEPARTMENT"}}])
+
+2. Count of faculty in each department.
+db.faculty.aggregate([{$group:{_id:"$DEPARTMENT",COUNT:{$sum:1}}}])
+
+3. Average salary of each department (without department name)
+db.faculty.aggregate([{$group:{_id:"$DEPARTMENT",avg:{$avg:"$SALARY"}}},{$project:{_id:0,avg:1}}])
+
+4.Get faculty with salary between 45000 and 50000
+db.faculty.aggregate([{$match:{SALARY:{$gte:45000,$lte:50000}}}])
+
+5. Departments having more than 2 faculty members
+db.faculty.aggregate([{$group:{_id:"$DEPARTMENT",count:{$sum:1}}},{$match:{count:{$gt:2}}}])
+
+6 Total salary per department where city is 'Rajkot' and salary > 45000
+db.faculty.aggregate([{$match:{SALARY:{$gt:45000},CITY:"Rajkot"}},{$group:{_id:"$DEPARTMENT",TOTAL:{$sum:"$SALARY"}}}])
+
+7. List faculties from departments CE or EC having more than 5 years of experience.
+db.faculty.aggregate([{$match:{EXPERIENCE:{$gt:5},DEPARTMENT:{$in:["CE","EC"]}}}])
+
+8. Display department and faculty name with highest experience
+db.faculty.aggregate([{$sort:{EXPERIENCE:-1}},{$limit:1},{ $project: { _id: 0, FNAME: 1, DEPARTMENT: 1, EXPERIENCE: 1 }}])
+
+9. Find second lowest salary
+db.faculty.aggregate([{$sort:{SALARY:1}},{$limit:2},{$skip:1},{ $project: { _id: 0, FNAME: 1, DEPARTMENT: 1, SALARY: 1 }}])
+
+10. City-wise average experience of male faculty
+db.faculty.aggregate([{$match:{GENDER:"Male"}},{$group:{_id:"$CITY",AVG:{$avg:"$EXPERIENCE"}}}])
+
+11. Sort by experience descending
+db.faculty.aggregate([{$sort:{EXPERIENCE:-1}}])

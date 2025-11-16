@@ -1,0 +1,251 @@
+db.projects.insertMany([
+  {
+    PROJECT_ID: 201,
+    PROJECT_NAME: "Alpha Launch",
+    DEPARTMENT: "Marketing",
+    BUDGET: 120000,
+    MANAGER_ID: 101,
+    STATUS: "Active",
+    START_DATE: "2023-01-15"
+  },
+  {
+    PROJECT_ID: 202,
+    PROJECT_NAME: "Beta Upgrade",
+    DEPARTMENT: "IT",
+    BUDGET: 80000,
+    MANAGER_ID: 102,
+    STATUS: "Completed",
+    START_DATE: "2022-05-01"
+  },
+  {
+    PROJECT_ID: 203,
+    PROJECT_NAME: "Gamma Research",
+    DEPARTMENT: "R&D",
+    BUDGET: 150000,
+    MANAGER_ID: 103,
+    STATUS: "Active",
+    START_DATE: "2023-06-10"
+  },
+  {
+    PROJECT_ID: 204,
+    PROJECT_NAME: "Delta Expansion",
+    DEPARTMENT: "Marketing",
+    BUDGET: 90000,
+    MANAGER_ID: 101,
+    STATUS: "Active",
+    START_DATE: "2023-03-20"
+  },
+  {
+    PROJECT_ID: 205,
+    PROJECT_NAME: "Epsilon Launch",
+    DEPARTMENT: "IT",
+    BUDGET: 110000,
+    MANAGER_ID: 104,
+    STATUS: "Active",
+    START_DATE: "2023-04-01"
+  },
+  {
+    PROJECT_ID: 206,
+    PROJECT_NAME: "Zeta Project",
+    DEPARTMENT: "R&D",
+    BUDGET: 130000,
+    MANAGER_ID: 103,
+    STATUS: "Completed",
+    START_DATE: "2022-12-10"
+  },
+  {
+    PROJECT_ID: 207,
+    PROJECT_NAME: "Eta Upgrade",
+    DEPARTMENT: "Finance",
+    BUDGET: 70000,
+    MANAGER_ID: 105,
+    STATUS: "Active",
+    START_DATE: "2023-02-15"
+  }
+]);
+
+
+db.managers.insertMany([
+  {
+    MANAGER_ID: 101,
+    NAME: "John Smith",
+    EMAIL: "john@example.com",
+    PHONE: "123-456-7890"
+  },
+  {
+    MANAGER_ID: 102,
+    NAME: "Alice Brown",
+    EMAIL: "alice@example.com",
+    PHONE: "234-567-8901"
+  },
+  {
+    MANAGER_ID: 103,
+    NAME: "Carol White",
+    EMAIL: "carol@example.com",
+    PHONE: "345-678-9012"
+  },
+  {
+    MANAGER_ID: 104,
+    NAME: "David Green",
+    EMAIL: "david@example.com",
+    PHONE: "456-789-0123"
+  },
+  {
+    MANAGER_ID: 105,
+    NAME: "Emma Black",
+    EMAIL: "emma@example.com",
+    PHONE: "567-890-1234"
+  }
+]);
+
+db.departments.insertMany([
+  {
+    DEPARTMENT: "Marketing",
+    HEAD_MANAGER_ID: 101
+  },
+  {
+    DEPARTMENT: "IT",
+    HEAD_MANAGER_ID: 102
+  },
+  {
+    DEPARTMENT: "R&D",
+    HEAD_MANAGER_ID: 103
+  },
+  {
+    DEPARTMENT: "Finance",
+    HEAD_MANAGER_ID: 105
+  },
+  {
+    DEPARTMENT: "HR",
+    HEAD_MANAGER_ID: 106
+  }
+]);
+
+1. List all projects with manager details.
+-> 
+db.projects.aggregate([{
+  $lookup:
+  {
+    from:"managers",
+  	localField:"MANAGER_ID",
+    foreignField:"MANAGER_ID",
+    as:"ManagerTable"
+  }
+}])
+
+ 
+2. Show project name and manager name. 
+->
+db.projects.aggregate([{
+  $lookup:
+  {
+    from:"managers",
+  	localField:"MANAGER_ID",
+    foreignField:"MANAGER_ID",
+    as:"ManagerTable"
+  }
+},{
+  $project:{
+    _id:0,
+    PROJECT_NAME: 1,
+  	"ManagerTable.NAME": 1
+  }
+}])
+
+3. Find all active projects with manager info. 
+->
+db.projects.aggregate([{
+	$match:{
+    STATUS: "Active"
+  }
+},{
+  $lookup:
+  {
+    from:"managers",
+  	localField:"MANAGER_ID",
+    foreignField:"MANAGER_ID",
+    as:"ManagerTable"
+  }
+}
+}])
+
+4. List all completed projects with manager name 
+->
+db.projects.aggregate([{
+	$match:{
+    STATUS: "Completed"
+  }
+},{
+  $lookup:
+  {
+    from:"managers",
+  	localField:"MANAGER_ID",
+    foreignField:"MANAGER_ID",
+    as:"ManagerTable"
+  }
+}
+])
+
+5. Show project budget and manager email 
+->
+db.projects.aggregate([{
+  $lookup:
+  {
+    from:"managers",
+  	localField:"MANAGER_ID",
+    foreignField:"MANAGER_ID",
+    as:"ManagerTable"
+  }
+},{
+  $project:{
+    _id:0,
+    BUDGET: 1,
+  	"ManagerTable.EMAIL": 1
+  }
+}])
+
+6. Get all manager names who manage projects. 
+->
+db.projects.aggregate([{
+  $lookup:
+  {
+    from:"managers",
+  	localField:"MANAGER_ID",
+    foreignField:"MANAGER_ID",
+    as:"ManagerTable"
+  }
+},{
+  $project:{
+    _id:0,
+  	"ManagerTable.NAME": 1
+  }
+}])
+
+7. List manager phone numbers for all projects 
+->
+db.projects.aggregate([{
+  $lookup:
+  {
+    from:"managers",
+  	localField:"MANAGER_ID",
+    foreignField:"MANAGER_ID",
+    as:"ManagerTable"
+  }
+},{
+  $project:{
+    _id:0,
+    PROJECT_NAME: 11,
+  	"ManagerTable.PHONE": 1
+  }
+}])
+
+8. List project names that started after Jan 1, 2023. 
+->
+
+9. Show project name and the department’s head manager ID. 
+->
+
+10. List all departments and the count of managers heading them.
+->
+
+
